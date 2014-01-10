@@ -24,5 +24,15 @@ namespace DB_AFS
         {
             InitializeComponent();
         }
+
+        private void Button_Click1(object sender, RoutedEventArgs e)
+        {
+            myTabControl.SelectedIndex = 0;
+        }
+
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            myTabControl.SelectedIndex = 1;
+        }
     }
 }
