@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace DB_AFS
 {
@@ -21,10 +24,13 @@ namespace DB_AFS
     public partial class MainWindow : Window
     {
         GridLength[] starHeight;
-
+        
         public MainWindow()
         {
             InitializeComponent();
+            FillDataGrid(); 
+            
+            // Expanderaufteilung und deren Größe/Höhe
 
             starHeight = new GridLength[expanderGrid.RowDefinitions.Count];
             starHeight[0] = expanderGrid.RowDefinitions[0].Height;
@@ -32,17 +38,17 @@ namespace DB_AFS
             ExpandedOrCollapsed(topExpander);
             ExpandedOrCollapsed(middleExpander);
             ExpandedOrCollapsed(bottomExpander);
-
-            // InitializeComponent calls topExpander.Expanded
-            // while bottomExpander is null, if we hook this up in the xaml
             topExpander.Expanded += ExpandedOrCollapsed;
             topExpander.Collapsed += ExpandedOrCollapsed;
             middleExpander.Expanded += ExpandedOrCollapsed;
             middleExpander.Collapsed += ExpandedOrCollapsed;
             bottomExpander.Expanded += ExpandedOrCollapsed;
             bottomExpander.Collapsed += ExpandedOrCollapsed;
+ 
         }
-
+        
+        // Expanderaufteilung
+        
         void ExpandedOrCollapsed(object sender, RoutedEventArgs e)
         {
             ExpandedOrCollapsed(sender as Expander);
@@ -64,6 +70,8 @@ namespace DB_AFS
                 row.MinHeight = 0;
             }
         }
+        
+        // Um aus dem Menü heraus die Tabreiter anzusprechen
 
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
@@ -74,6 +82,8 @@ namespace DB_AFS
         {
             myTabControl.SelectedIndex = 1;
         }
+
+        // Zum leeren des kompletten Tabinhaltes
 
         private void Button_Leeren(object sender, RoutedEventArgs e)
         {
@@ -103,7 +113,24 @@ namespace DB_AFS
                     textbox.Text = String.Empty;
                 }
             }
-
         }
+
+        // Zum Laden der Tabellendaten in DataGrid
+
+        private void FillDataGrid()
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["DB_AFS.Properties.Settings.db_afsConnectionString"].ConnectionString;
+            string CmdString = string.Empty;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                CmdString = "SELECT Firmenname, Telefonnummer, Mail, Ust_ID, Standort  FROM Unternehmen";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("Unternehmen");
+                sda.Fill(dt);
+                KundenDataGrid.ItemsSource = dt.DefaultView;
+            }
+        }
+
     }
 }
