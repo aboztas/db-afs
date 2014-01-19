@@ -69,6 +69,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainWindow_A.xaml.cs">
+      <DependentUpon>MainWindow_A.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow_F.xaml.cs">
+      <DependentUpon>MainWindow_F.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow_M.xaml.cs">
+      <DependentUpon>MainWindow_M.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_db_afsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -86,6 +95,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MainWindow_A.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow_F.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow_M.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

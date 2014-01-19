@@ -23,114 +23,29 @@ namespace DB_AFS
     /// </summary>
     public partial class MainWindow : Window
     {
-        GridLength[] starHeight;
-        
         public MainWindow()
         {
             InitializeComponent();
-            FillDataGrid(); 
-            
-            // Expanderaufteilung und deren Größe/Höhe
-
-            starHeight = new GridLength[expanderGrid.RowDefinitions.Count];
-            starHeight[0] = expanderGrid.RowDefinitions[0].Height;
-            starHeight[2] = expanderGrid.RowDefinitions[2].Height;
-            ExpandedOrCollapsed(topExpander);
-            ExpandedOrCollapsed(middleExpander);
-            ExpandedOrCollapsed(bottomExpander);
-            topExpander.Expanded += ExpandedOrCollapsed;
-            topExpander.Collapsed += ExpandedOrCollapsed;
-            middleExpander.Expanded += ExpandedOrCollapsed;
-            middleExpander.Collapsed += ExpandedOrCollapsed;
-            bottomExpander.Expanded += ExpandedOrCollapsed;
-            bottomExpander.Collapsed += ExpandedOrCollapsed;
- 
         }
-        
-        // Expanderaufteilung
-        
-        void ExpandedOrCollapsed(object sender, RoutedEventArgs e)
+
+        private void ButtonAdem_Click(object sender, RoutedEventArgs e)
         {
-            ExpandedOrCollapsed(sender as Expander);
+            MainWindow_A newMainWindow = new MainWindow_A();
+            newMainWindow.Show();
         }
 
-        void ExpandedOrCollapsed(Expander expander)
+        private void ButtonMo_Click(object sender, RoutedEventArgs e)
         {
-            var rowIndex = Grid.GetRow(expander);
-            var row = expanderGrid.RowDefinitions[rowIndex];
-            if (expander.IsExpanded)
-            {
-                row.Height = starHeight[rowIndex];
-                row.MinHeight = 50;
-            }
-            else
-            {
-                starHeight[rowIndex] = row.Height;
-                row.Height = GridLength.Auto;
-                row.MinHeight = 0;
-            }
+            MainWindow_M newMainWindow = new MainWindow_M();
+            newMainWindow.Show();
         }
-        
-        // Um aus dem Menü heraus die Tabreiter anzusprechen
 
-        private void Button_Click1(object sender, RoutedEventArgs e)
+        private void ButtonFatih_Click(object sender, RoutedEventArgs e)
         {
-            myTabControl.SelectedIndex = 0;
+            MainWindow_F newMainWindow = new MainWindow_F();
+            newMainWindow.Show();
         }
-
-        private void Button_Click2(object sender, RoutedEventArgs e)
-        {
-            myTabControl.SelectedIndex = 1;
-        }
-
-        // Zum leeren des kompletten Tabinhaltes
-
-        private void Button_Leeren(object sender, RoutedEventArgs e)
-        {
-            foreach (UIElement element in Kundendatengrid.Children)
-            {
-                TextBox textbox = element as TextBox;
-                if (textbox != null)
-                {
-                    textbox.Text = String.Empty;
-                }
-            }
-
-            foreach (UIElement element in Ladestellegrid.Children)
-            {
-                TextBox textbox = element as TextBox;
-                if (textbox != null)
-                {
-                    textbox.Text = String.Empty;
-                }
-            }
-
-            foreach (UIElement element in Ansprechpartnergrid.Children)
-            {
-                TextBox textbox = element as TextBox;
-                if (textbox != null)
-                {
-                    textbox.Text = String.Empty;
-                }
-            }
-        }
-
-        // Zum Laden der Tabellendaten in DataGrid
-
-        private void FillDataGrid()
-        {
-            string ConString = ConfigurationManager.ConnectionStrings["DB_AFS.Properties.Settings.db_afsConnectionString"].ConnectionString;
-            string CmdString = string.Empty;
-            using (SqlConnection con = new SqlConnection(ConString))
-            {
-                CmdString = "SELECT Firmenname, Telefonnummer, Mail, Ust_ID, Standort  FROM Unternehmen";
-                SqlCommand cmd = new SqlCommand(CmdString, con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable("Unternehmen");
-                sda.Fill(dt);
-                KundenDataGrid.ItemsSource = dt.DefaultView;
-            }
-        }
-
     }
 }
+
+
