@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DatenbankModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DatenbankModelStoreContainer">
+    <EntitySet Name="Kunde" EntityType="DatenbankModel.Store.Kunde" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sendung" EntityType="DatenbankModel.Store.Sendung" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Ladestelle" EntityType="DatenbankModel.Store.Ladestelle" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="KundeLadestelle" EntityType="DatenbankModel.Store.KundeLadestelle" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="KundeSendung" Association="DatenbankModel.Store.KundeSendung">
+      <End Role="Kunde" EntitySet="Kunde" />
+      <End Role="Sendung" EntitySet="Sendung" />
+    </AssociationSet>
+    <AssociationSet Name="FK_KundeLadestelle_Kunde" Association="DatenbankModel.Store.FK_KundeLadestelle_Kunde">
+      <End Role="Kunde" EntitySet="Kunde" />
+      <End Role="KundeLadestelle" EntitySet="KundeLadestelle" />
+    </AssociationSet>
+    <AssociationSet Name="FK_KundeLadestelle_Ladestelle" Association="DatenbankModel.Store.FK_KundeLadestelle_Ladestelle">
+      <End Role="Ladestelle" EntitySet="Ladestelle" />
+      <End Role="KundeLadestelle" EntitySet="KundeLadestelle" />
+    </AssociationSet>
+    <AssociationSet Name="LadestelleSendung" Association="DatenbankModel.Store.LadestelleSendung">
+      <End Role="Ladestelle" EntitySet="Ladestelle" />
+      <End Role="Sendung" EntitySet="Sendung" />
+    </AssociationSet>
+    <AssociationSet Name="LadestelleSendung1" Association="DatenbankModel.Store.LadestelleSendung1">
+      <End Role="Ladestelle" EntitySet="Ladestelle" />
+      <End Role="Sendung" EntitySet="Sendung" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Kunde">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adresse" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Hausnummer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PLZ" Type="smallint" Nullable="false" />
+    <Property Name="LKZ" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sendung">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KundeId" Type="int" Nullable="false" />
+    <Property Name="Typ" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VonId" Type="int" Nullable="false" />
+    <Property Name="NachId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ladestelle">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Adresse" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Hausnummer" Type="smallint" Nullable="false" />
+    <Property Name="PLZ" Type="smallint" Nullable="false" />
+    <Property Name="LKZ" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="KundeLadestelle">
+    <Key>
+      <PropertyRef Name="Kunde_Id" />
+      <PropertyRef Name="Ladestelle_Id" />
+    </Key>
+    <Property Name="Kunde_Id" Type="int" Nullable="false" />
+    <Property Name="Ladestelle_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="KundeSendung">
+    <End Role="Kunde" Type="DatenbankModel.Store.Kunde" Multiplicity="1" />
+    <End Role="Sendung" Type="DatenbankModel.Store.Sendung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kunde">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sendung">
+        <PropertyRef Name="KundeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LadestelleSendung">
+    <End Role="Ladestelle" Type="DatenbankModel.Store.Ladestelle" Multiplicity="1" />
+    <End Role="Sendung" Type="DatenbankModel.Store.Sendung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ladestelle">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sendung">
+        <PropertyRef Name="VonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LadestelleSendung1">
+    <End Role="Ladestelle" Type="DatenbankModel.Store.Ladestelle" Multiplicity="1" />
+    <End Role="Sendung" Type="DatenbankModel.Store.Sendung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ladestelle">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sendung">
+        <PropertyRef Name="NachId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_KundeLadestelle_Kunde">
+    <End Role="Kunde" Type="DatenbankModel.Store.Kunde" Multiplicity="1" />
+    <End Role="KundeLadestelle" Type="DatenbankModel.Store.KundeLadestelle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kunde">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="KundeLadestelle">
+        <PropertyRef Name="Kunde_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_KundeLadestelle_Ladestelle">
+    <End Role="KundeLadestelle" Type="DatenbankModel.Store.KundeLadestelle" Multiplicity="*" />
+    <End Role="Ladestelle" Type="DatenbankModel.Store.Ladestelle" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Ladestelle">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="KundeLadestelle">
+        <PropertyRef Name="Ladestelle_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatenbankModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DatenbankEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Kunde" EntityType="DatenbankModel.Kunde" />
+          <EntitySet Name="Sendung" EntityType="DatenbankModel.Sendung" />
+          <EntitySet Name="Ladestelle" EntityType="DatenbankModel.Ladestelle" />
+          <AssociationSet Name="KundeSendung" Association="DatenbankModel.KundeSendung">
+            <End Role="Kunde" EntitySet="Kunde" />
+            <End Role="Sendung" EntitySet="Sendung" />
+          </AssociationSet>
+          <AssociationSet Name="KundeLadestelle" Association="DatenbankModel.KundeLadestelle">
+            <End Role="Kunde" EntitySet="Kunde" />
+            <End Role="Ladestelle" EntitySet="Ladestelle" />
+          </AssociationSet>
+          <AssociationSet Name="LadestelleSendung" Association="DatenbankModel.LadestelleSendung">
+            <End Role="Ladestelle" EntitySet="Ladestelle" />
+            <End Role="Sendung" EntitySet="Sendung" />
+          </AssociationSet>
+          <AssociationSet Name="LadestelleSendung1" Association="DatenbankModel.LadestelleSendung1">
+            <End Role="Ladestelle" EntitySet="Ladestelle" />
+            <End Role="Sendung" EntitySet="Sendung" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Kunde">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Sendungen" Relationship="DatenbankModel.KundeSendung" FromRole="Kunde" ToRole="Sendung" />
+          <Property Name="Adresse" Type="String" Nullable="false" />
+          <Property Name="Hausnummer" Type="String" Nullable="false" />
+          <Property Name="PLZ" Type="Int16" Nullable="false" />
+          <Property Name="LKZ" Type="String" Nullable="false" MaxLength="Max" />
+          <NavigationProperty Name="Ladestelle" Relationship="DatenbankModel.KundeLadestelle" FromRole="Kunde" ToRole="Ladestelle" />
+        </EntityType>
+        <EntityType Name="Sendung">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Kunde" Relationship="DatenbankModel.KundeSendung" FromRole="Sendung" ToRole="Kunde" />
+          <Property Name="KundeId" Type="Int32" Nullable="false" />
+          <Property Name="Typ" Type="String" Nullable="false" />
+          <NavigationProperty Name="Nach" Relationship="DatenbankModel.LadestelleSendung" FromRole="Sendung" ToRole="Ladestelle" />
+          <Property Name="VonId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Von" Relationship="DatenbankModel.LadestelleSendung1" FromRole="Sendung" ToRole="Ladestelle" />
+          <Property Name="NachId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ladestelle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Adresse" Type="String" Nullable="false" />
+          <Property Name="Hausnummer" Type="Int16" Nullable="false" />
+          <Property Name="PLZ" Type="Int16" Nullable="false" />
+          <Property Name="LKZ" Type="String" Nullable="false" MaxLength="10" />
+          <NavigationProperty Name="Kunde" Relationship="DatenbankModel.KundeLadestelle" FromRole="Ladestelle" ToRole="Kunde" />
+          <NavigationProperty Name="Sendung" Relationship="DatenbankModel.LadestelleSendung" FromRole="Ladestelle" ToRole="Sendung" />
+          <NavigationProperty Name="AnkommendeSendungen" Relationship="DatenbankModel.LadestelleSendung1" FromRole="Ladestelle" ToRole="Sendung" />
+        </EntityType>
+        <Association Name="KundeSendung">
+          <End Type="DatenbankModel.Kunde" Role="Kunde" Multiplicity="1" />
+          <End Type="DatenbankModel.Sendung" Role="Sendung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sendung">
+              <PropertyRef Name="KundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="KundeLadestelle">
+          <End Type="DatenbankModel.Kunde" Role="Kunde" Multiplicity="*" />
+          <End Type="DatenbankModel.Ladestelle" Role="Ladestelle" Multiplicity="*" />
+        </Association>
+        <Association Name="LadestelleSendung">
+          <End Type="DatenbankModel.Ladestelle" Role="Ladestelle" Multiplicity="1" />
+          <End Type="DatenbankModel.Sendung" Role="Sendung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ladestelle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sendung">
+              <PropertyRef Name="VonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LadestelleSendung1">
+          <End Type="DatenbankModel.Ladestelle" Role="Ladestelle" Multiplicity="1" />
+          <End Type="DatenbankModel.Sendung" Role="Sendung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ladestelle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sendung">
+              <PropertyRef Name="NachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatenbankModelStoreContainer" CdmEntityContainer="DatenbankEntities">
+    <EntitySetMapping Name="Kunde">
+      <EntityTypeMapping TypeName="IsTypeOf(DatenbankModel.Kunde)">
+        <MappingFragment StoreEntitySet="Kunde">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+          <ScalarProperty Name="Hausnummer" ColumnName="Hausnummer" />
+          <ScalarProperty Name="PLZ" ColumnName="PLZ" />
+          <ScalarProperty Name="LKZ" ColumnName="LKZ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sendung">
+      <EntityTypeMapping TypeName="IsTypeOf(DatenbankModel.Sendung)">
+        <MappingFragment StoreEntitySet="Sendung">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="KundeId" ColumnName="KundeId" />
+          <ScalarProperty Name="Typ" ColumnName="Typ" />
+          <ScalarProperty Name="VonId" ColumnName="VonId" />
+          <ScalarProperty Name="NachId" ColumnName="NachId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ladestelle">
+      <EntityTypeMapping TypeName="IsTypeOf(DatenbankModel.Ladestelle)">
+        <MappingFragment StoreEntitySet="Ladestelle">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+          <ScalarProperty Name="Hausnummer" ColumnName="Hausnummer" />
+          <ScalarProperty Name="PLZ" ColumnName="PLZ" />
+          <ScalarProperty Name="LKZ" ColumnName="LKZ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="KundeLadestelle" TypeName="DatenbankModel.KundeLadestelle" StoreEntitySet="KundeLadestelle">
+      <EndProperty Name="Kunde">
+        <ScalarProperty Name="Id" ColumnName="Kunde_Id" />
+      </EndProperty>
+      <EndProperty Name="Ladestelle">
+        <ScalarProperty Name="Id" ColumnName="Ladestelle_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -49,9 +49,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,6 +78,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\ERM-Modell.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERM-Modell.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ERM-Modell.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERM-Modell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ERM-Modell.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERM-Modell.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Kunde.cs">
+      <DependentUpon>ERM-Modell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Ladestelle.cs">
+      <DependentUpon>ERM-Modell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Sendung.cs">
+      <DependentUpon>ERM-Modell.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Details_Customer.xaml.cs">
+      <DependentUpon>Form_Details_Customer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow_A.xaml.cs">
       <DependentUpon>MainWindow_A.xaml</DependentUpon>
     </Compile>
@@ -78,11 +114,10 @@
     <Compile Include="MainWindow_M.xaml.cs">
       <DependentUpon>MainWindow_M.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_db_afsDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_db_afsDataSet.xsd</DependentUpon>
-    </Compile>
+    <Page Include="Form_Details_Customer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,23 +161,30 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="Database\ERM-Modell.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ERM-Modell.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Database\ERM-Modell.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ERM-Modell.edmx</DependentUpon>
+      <LastGenOutput>ERM-Modell.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Database\ERM-Modell.edmx.diagram">
+      <DependentUpon>ERM-Modell.edmx</DependentUpon>
+    </None>
+    <None Include="Database\ERM-Modell.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ERM-Modell.edmx</DependentUpon>
+      <LastGenOutput>ERM-Modell.cs</LastGenOutput>
+    </None>
     <None Include="Database\Sp50000.dat" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="_db_afsDataSet.xsc">
-      <DependentUpon>_db_afsDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="_db_afsDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>_db_afsDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="_db_afsDataSet.xss">
-      <DependentUpon>_db_afsDataSet.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -174,6 +216,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\Datenbank.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\Datenbank_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>Datenbank.mdf</DependentUpon>
+    </Content>
     <Content Include="Database\db-afs.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -181,7 +230,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>db-afs.mdf</DependentUpon>
     </Content>
+    <Content Include="Database\ERM-Modell.edmx.sql" />
     <Resource Include="Icon\Places-server-database-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
