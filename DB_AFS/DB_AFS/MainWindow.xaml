@@ -1,7 +1,7 @@
 ﻿<Window x:Class="DB_AFS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Datenbank AFS" Height="200" Width="200" MinHeight="200" MinWidth="200" WindowStartupLocation="CenterScreen">
+        Title="Datenbank AFS" Height="200" Width="200" MinHeight="200" MinWidth="200" WindowStartupLocation="CenterScreen" Icon="Icon/Places-server-database-icon.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
